@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeItem, updateQuantity } from './CartSlice';
+import { addItem, removeItem, updateQuantity } from './CartSlice';
 import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
@@ -8,10 +8,10 @@ const CartItem = ({ onContinueShopping }) => {
   const dispatch = useDispatch();
 
   // Calculate total amount for all products in the cart
-  const calculateTotalAmount = (item) => {    
-    const totalCost = CartItem.reduce((accumulator, item) => {
-        return accumulator + item.cost * item.quantity;
-      }, 0);   
+    const calculateTotalAmount= (cart) => {
+        let x = 0;
+        cart.forEach((items) =>  x = x + (parseInt(items.cost.slice(1)) * items.quantity));
+        return (x);
     };
 
   const handleContinueShopping = (e) => {
@@ -32,11 +32,14 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-  };
+    return(
+        item.quantity * parseInt(item.cost.slice(1))
+    )
+    };
 
   return (
     <div className="cart-container">
-      <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount()}</h2>
+      <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount(cart)}</h2>
       <div>
         {cart.map(item => (
           <div className="cart-item" key={item.name}>

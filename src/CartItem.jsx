@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem, removeItem, updateQuantity } from './CartSlice';
 import './CartItem.css';
+import { isAction } from '@reduxjs/toolkit';
 
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
@@ -14,17 +15,18 @@ const CartItem = ({ onContinueShopping }) => {
         return (x);
     };
 
-  const handleContinueShopping = (e) => {
-   
+  const handleContinueShopping = (e) => {  
+    onContinueShopping()
   };
 
 
 
-  const handleIncrement = (item) => {
-  };
+  const handleIncrement = (item)=> {
+    dispatch(updateQuantity(item));
+      };
 
   const handleDecrement = (item) => {
-   
+    dispatch(updateQuantity(item))
   };
 
   const handleRemove = (item) => {
@@ -36,6 +38,9 @@ const CartItem = ({ onContinueShopping }) => {
         item.quantity * parseInt(item.cost.slice(1))
     )
     };
+  const handleCheckoutShopping = (e) => {
+  alert('Functionality to be added for future reference');
+};
 
   return (
     <div className="cart-container">
@@ -62,7 +67,7 @@ const CartItem = ({ onContinueShopping }) => {
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={(e) => handleCheckoutShopping(e)}>Checkout</button>
       </div>
     </div>
   );
